@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loop Learn</title>
+    <style>
+        :root {
+            --primary: #245d68;
+            --secondary: #007d83;
+            --accent: #4a989a;
+            --muted: #afb3b4;
+            --neutral: #a49fa5;
+            --highlight: #d1aeac;
+            --dark: #10406e;
+            --white: #ffffff;
+            --light-bg: #f5f7f8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 24px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        /* Auth Section */
+        .auth-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            padding: 8px 12px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 180px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--highlight);
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--highlight);
+            outline-offset: 2px;
+        }
+
+        .btn-logout {
+            background-color: var(--muted);
+            color: var(--dark);
+        }
+
+        .btn-logout:hover {
+            background-color: var(--neutral);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .user-info strong {
+            color: var(--highlight);
+        }
+
+        /* Status Messages */
+        .status-message {
+            margin-top: 12px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .status-message.error {
+            background-color: rgba(255, 100, 100, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            padding: 32px 0;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr 400px;
+            }
+
+            .content-wrapper.no-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Course Grid */
+        .courses-section h2 {
+            color: var(--primary);
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            border-color: var(--accent);
+        }
+
+        .course-card:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(74, 152, 154, 0.3);
+        }
+
+        .course-card.selected {
+            border-color: var(--secondary);
+            background-color: rgba(74, 152, 154, 0.05);
+        }
+
+        .course-card.completed::after {
+            content: '✓';
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            background-color: var(--secondary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .course-card h3 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .course-card p {
+            color: var(--dark);
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .course-duration {
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--neutral);
+            font-weight: 600;
+        }
+
+        /* Side Panel */
+        .side-panel {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 24px;
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+        }
+
+        .side-panel h2 {
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-size: 22px;
+        }
+
+        .side-panel .course-description {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            color: var(--dark);
+        }
+
+        .side-panel .course-meta {
+            margin-bottom: 24px;
+            padding: 12px;
+            background-color: var(--light-bg);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--neutral);
+        }
+
+        .side-panel .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .side-panel .btn {
+            width: 100%;
+            padding: 12px;
+        }
+
+        .btn-complete {
+            background-color: var(--secondary);
+        }
+
+        .btn-complete:hover {
+            background-color: var(--accent);
+        }
+
+        .btn-uncomplete {
+            background-color: var(--muted);
+            color: var(--dark);
+        }
+
+        .btn-uncomplete:hover {
+            background-color: var(--neutral);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .login-notice {
+            padding: 12px;
+            background-color: rgba(209, 174, 172, 0.2);
+            border-left: 4px solid var(--highlight);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--neutral);
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 767px) {
+            header h1 {
+                font-size: 24px;
+            }
+
+            .auth-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-group input {
+                min-width: 100%;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .side-panel {
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+        }
+
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Loop Learn</h1>
+
+            <div class="auth-section">
+                <div id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" autocomplete="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" autocomplete="current-password" required>
+                    </div>
+                    <button type="button" class="btn" id="loginBtn">Log In</button>
+                    <button type="button" class="btn" id="signupBtn">Sign Up</button>
+                </div>
+
+                <div id="userInfo" class="user-info" style="display: none;">
+                    <span>Welcome, <strong id="currentUser"></strong>!</span>
+                    <button type="button" class="btn btn-logout" id="logoutBtn">Log Out</button>
+                </div>
+
+                <div id="statusMessage" class="status-message" role="status" aria-live="polite" style="display: none;"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="content-wrapper" id="contentWrapper">
+                <section class="courses-section">
+                    <h2>Available Courses</h2>
+                    <div class="course-grid" id="courseGrid" role="list"></div>
+                </section>
+
+                <aside class="side-panel" id="sidePanel" style="display: none;">
+                    <div id="panelContent"></div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Course Data
+        const courses = [
+            {
+                id: 1,
+                title: 'Introduction to Web Development',
+                description: 'Learn the fundamentals of HTML, CSS, and JavaScript. Build your first interactive website and understand how the web works. Perfect for beginners with no prior coding experience.',
+                duration: '8 hours'
+            },
+            {
+                id: 2,
+                title: 'JavaScript Fundamentals',
+                description: 'Master the core concepts of JavaScript including variables, functions, loops, and objects. Learn modern ES6+ features and best practices for writing clean, efficient code.',
+                duration: '12 hours'
+            },
+            {
+                id: 3,
+                title: 'Responsive Web Design',
+                description: 'Create beautiful, mobile-friendly websites that work on any device. Learn CSS Grid, Flexbox, media queries, and modern design principles for creating adaptive layouts.',
+                duration: '6 hours'
+            }
+        ];
+
+        // State Management
+        let currentUser = null;
+        let selectedCourseId = null;
+
+        // LocalStorage Keys
+        const USERS_KEY = 'elearn_users';
+        const CURRENT_USER_KEY = 'elearn_current_user';
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAuth();
+            renderCourses();
+            setupEventListeners();
+        });
+
+        // Auth Functions
+        function initializeAuth() {
+            const savedUser = localStorage.getItem(CURRENT_USER_KEY);
+            if (savedUser) {
+                currentUser = savedUser;
+                updateAuthUI();
+            }
+        }
+
+        function getUsers() {
+            const users = localStorage.getItem(USERS_KEY);
+            return users ? JSON.parse(users) : {};
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        function getUserCompletedCourses() {
+            if (!currentUser) return [];
+            const users = getUsers();
+            return users[currentUser]?.completedCourses || [];
+        }
+
+        function saveUserCompletedCourses(completedCourses) {
+            if (!currentUser) return;
+            const users = getUsers();
+            if (!users[currentUser]) {
+                users[currentUser] = { password: '', completedCourses: [] };
+            }
+            users[currentUser].completedCourses = completedCourses;
+            saveUsers(users);
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showStatus('Please enter both username and password', true);
+                return;
+            }
+
+            const users = getUsers();
+
+            if (users[username] && users[username].password === password) {
+                currentUser = username;
+                localStorage.setItem(CURRENT_USER_KEY, currentUser);
+                updateAuthUI();
+                renderCourses();
+                showStatus('Successfully logged in!');
+                clearInputs();
+            } else {
+                showStatus('Invalid username or password', true);
+            }
+        }
+
+        function handleSignup() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showStatus('Please enter both username and password', true);
+                return;
+            }
+
+            if (username.length < 3) {
+                showStatus('Username must be at least 3 characters', true);
+                return;
+            }
+
+            if (password.length < 4) {
+                showStatus('Password must be at least 4 characters', true);
+                return;
+            }
+
+            const users = getUsers();
+
+            if (users[username]) {
+                showStatus('Username already exists', true);
+                return;
+            }
+
+            users[username] = { password, completedCourses: [] };
+            saveUsers(users);
+
+            currentUser = username;
+            localStorage.setItem(CURRENT_USER_KEY, currentUser);
+            updateAuthUI();
+            renderCourses();
+            showStatus('Account created successfully!');
+            clearInputs();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem(CURRENT_USER_KEY);
+            updateAuthUI();
+            renderCourses();
+            selectedCourseId = null;
+            renderSidePanel();
+            showStatus('Logged out successfully');
+        }
+
+        function updateAuthUI() {
+            const loginForm = document.getElementById('loginForm');
+            const userInfo = document.getElementById('userInfo');
+            const currentUserSpan = document.getElementById('currentUser');
+
+            if (currentUser) {
+                loginForm.style.display = 'none';
+                userInfo.style.display = 'flex';
+                currentUserSpan.textContent = currentUser;
+            } else {
+                loginForm.style.display = 'flex';
+                userInfo.style.display = 'none';
+            }
+        }
+
+        function clearInputs() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function showStatus(message, isError = false) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = 'status-message' + (isError ? ' error' : '');
+            statusEl.style.display = 'block';
+
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // Course Rendering
+        function renderCourses() {
+            const grid = document.getElementById('courseGrid');
+            const completedCourses = getUserCompletedCourses();
+
+            grid.innerHTML = courses.map(course => {
+                const isCompleted = completedCourses.includes(course.id);
+                return `
+                    <div
+                        class="course-card ${isCompleted ? 'completed' : ''} ${selectedCourseId === course.id ? 'selected' : ''}"
+                        role="listitem"
+                        tabindex="0"
+                        data-course-id="${course.id}"
+                        aria-label="${course.title}${isCompleted ? ' (Completed)' : ''}"
+                    >
+                        <h3>${course.title}</h3>
+                        <p>${course.description.substring(0, 80)}...</p>
+                        <div class="course-duration">⏱ ${course.duration}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // Add click and keyboard listeners
+            grid.querySelectorAll('.course-card').forEach(card => {
+                card.addEventListener('click', () => handleCourseSelect(parseInt(card.dataset.courseId)));
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleCourseSelect(parseInt(card.dataset.courseId));
+                    }
+                });
+            });
+        }
+
+        function handleCourseSelect(courseId) {
+            selectedCourseId = courseId;
+            renderCourses();
+            renderSidePanel();
+        }
+
+        function renderSidePanel() {
+            const panel = document.getElementById('sidePanel');
+            const content = document.getElementById('panelContent');
+            const wrapper = document.getElementById('contentWrapper');
+
+            if (!selectedCourseId) {
+                panel.style.display = 'none';
+                wrapper.classList.add('no-panel');
+                return;
+            }
+
+            const course = courses.find(c => c.id === selectedCourseId);
+            if (!course) return;
+
+            const completedCourses = getUserCompletedCourses();
+            const isCompleted = completedCourses.includes(course.id);
+            const isLoggedIn = !!currentUser;
+
+            panel.style.display = 'block';
+            wrapper.classList.remove('no-panel');
+
+            content.innerHTML = `
+                <h2>${course.title}</h2>
+                <div class="course-meta">
+                    <strong>Duration:</strong> ${course.duration}
+                </div>
+                <div class="course-description">
+                    ${course.description}
+                </div>
+                ${!isLoggedIn ? `
+                    <div class="login-notice">
+                        <strong>Note:</strong> Log in to track your progress and mark courses as completed.
+                    </div>
+                ` : `
+                    <div class="actions">
+                        ${!isCompleted ? `
+                            <button class="btn btn-complete" id="completeBtn">
+                                Mark as Completed
+                            </button>
+                        ` : `
+                            <button class="btn btn-uncomplete" id="uncompleteBtn">
+                                Unmark as Completed
+                            </button>
+                        `}
+                    </div>
+                `}
+            `;
+
+            // Add event listeners for completion buttons
+            if (isLoggedIn) {
+                const completeBtn = document.getElementById('completeBtn');
+                const uncompleteBtn = document.getElementById('uncompleteBtn');
+
+                if (completeBtn) {
+                    completeBtn.addEventListener('click', () => handleMarkComplete(course.id));
+                }
+                if (uncompleteBtn) {
+                    uncompleteBtn.addEventListener('click', () => handleMarkUncomplete(course.id));
+                }
+            }
+        }
+
+        function handleMarkComplete(courseId) {
+            if (!currentUser) return;
+
+            const completedCourses = getUserCompletedCourses();
+            if (!completedCourses.includes(courseId)) {
+                completedCourses.push(courseId);
+                saveUserCompletedCourses(completedCourses);
+                renderCourses();
+                renderSidePanel();
+                showStatus('Course marked as completed!');
+            }
+        }
+
+        function handleMarkUncomplete(courseId) {
+            if (!currentUser) return;
+
+            const completedCourses = getUserCompletedCourses();
+            const index = completedCourses.indexOf(courseId);
+            if (index > -1) {
+                completedCourses.splice(index, 1);
+                saveUserCompletedCourses(completedCourses);
+                renderCourses();
+                renderSidePanel();
+                showStatus('Course unmarked');
+            }
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            document.getElementById('loginBtn').addEventListener('click', handleLogin);
+            document.getElementById('signupBtn').addEventListener('click', handleSignup);
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+
+            // Allow Enter key to submit login
+            document.getElementById('password').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    handleLogin();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
