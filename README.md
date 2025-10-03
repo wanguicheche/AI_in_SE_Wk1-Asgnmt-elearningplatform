@@ -37,12 +37,12 @@ https://github.com/wanguicheche/AI_in_SE_Wk1-Asgnmt-elearningplatform/commit/3d7
 
 ### Completed Course
 https://github.com/wanguicheche/AI_in_SE_Wk1-Asgnmt-elearningplatform/commit/3d734fa95cb234a4260148d861c88276de5e6e26#commitcomment-167127293
----
 
 
 ## 🚀 Live Demo
 You can view the live demo here:  
-👉 [GitHub Pages Link](https://wanguicheche.github.io/mini-elearning-platform-html/) *(update once published)*
+👉 [GitHub Pages Link]
+https://wanguicheche.github.io/mini-elearning-platform-html/)](https://wanguicheche.github.io/AI_in_SE_Wk1-Asgnmt-elearningplatform/
 
 ---
 
