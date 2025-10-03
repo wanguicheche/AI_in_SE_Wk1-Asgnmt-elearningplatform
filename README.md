@@ -26,12 +26,19 @@ This platform uses a custom palette:
 
 ## 📸 Screenshots
 ### Homepage
-![Homepage Screenshot](screenshots/homepage.png)
+https://github.com/wanguicheche/AI_in_SE_Wk1-Asgnmt-elearningplatform/commit/3d734fa95cb234a4260148d861c88276de5e6e26#commitcomment-167127194
 
 ### Logged In
-![Logged In Screenshot](screenshots/loggedin.png)
+https://github.com/wanguicheche/AI_in_SE_Wk1-Asgnmt-elearningplatform/commit/3d734fa95cb234a4260148d861c88276de5e6e26#commitcomment-167127133
 
+### Course
+https://github.com/wanguicheche/AI_in_SE_Wk1-Asgnmt-elearningplatform/commit/3d734fa95cb234a4260148d861c88276de5e6e26#commitcomment-167127227
+
+
+### Completed Course
+https://github.com/wanguicheche/AI_in_SE_Wk1-Asgnmt-elearningplatform/commit/3d734fa95cb234a4260148d861c88276de5e6e26#commitcomment-167127293
 ---
+
 
 ## 🚀 Live Demo
 You can view the live demo here:  
