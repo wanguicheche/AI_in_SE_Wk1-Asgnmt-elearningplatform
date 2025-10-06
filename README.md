@@ -42,7 +42,8 @@ https://github.com/wanguicheche/AI_in_SE_Wk1-Asgnmt-elearningplatform/commit/3d7
 ## 🚀 Live Demo
 You can view the live demo here:  
 👉 [GitHub Pages Link]
-https://wanguicheche.github.io/mini-elearning-platform-html/)](https://wanguicheche.github.io/AI_in_SE_Wk1-Asgnmt-elearningplatform/
+https://wanguicheche.github.io/AI_in_SE_Wk1-Asgnmt-elearningplatform/
+
 
 ---
 
